@@ -1,95 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Gallery</title>
-    <style>
-        .image-container {
-            display: flex;
-            align-items: center;
-            margin: 10px;
-        }
-
-        img {
-            border: 2px solid #333;
-            margin-right: 10px;
-        }
-
-        button {
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
+  <style>
+    .gallery-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    img {
+      margin: 5px;
+      border: 1px solid black;
+    }
+  </style>
 </head>
 <body>
 
-<div id="gallery">
-    <div class="image-container">
-        <img src="1.jpeg" alt="Image 1" width="300" height="200">
-        <div>
-            <button onclick="moveImage('up', 'image1')">Up</button>
-            <button onclick="moveImage('down', 'image1')">Down</button>
-        </div>
-    </div>
+<div class="gallery-container">
+  <label for="imageSelector">Select Image:</label>
+  <select id="imageSelector">
+    <option value="1">1.jpeg</option>
+    <option value="2">2.jpeg</option>
+    <option value="3">3.jpeg</option>
+    <option value="4">4.jpeg</option>
+  </select>
 
-    <div class="image-container">
-        <img src="2.jpeg" alt="Image 2" width="300" height="200">
-        <div>
-            <button onclick="moveImage('up', 'image2')">Up</button>
-            <button onclick="moveImage('down', 'image2')">Down</button>
-        </div>
-    </div>
+  <button onclick="moveImage('up')">Up</button>
+  <button onclick="moveImage('down')">Down</button>
 
-    <div class="image-container">
-        <img src="3.jpeg" alt="Image 3" width="300" height="200">
-        <div>
-            <button onclick="moveImage('up', 'image3')">Up</button>
-            <button onclick="moveImage('down', 'image3')">Down</button>
-        </div>
-    </div>
-    <!-- Add more image containers as needed -->
+  <div id="imageSettings">
+    <label for="imageWidth">Width:</label>
+    <input type="text" id="imageWidth" placeholder="Width">
 
-    <br>
+    <label for="imageHeight">Height:</label>
+    <input type="text" id="imageHeight" placeholder="Height">
 
-    <label for="width">Width:</label>
-    <input type="text" id="width" placeholder="Enter width">
-
-    <label for="height">Height:</label>
-    <input type="text" id="height" placeholder="Enter height">
-
-    <label for="thickness">Frame Thickness:</label>
-    <input type="text" id="thickness" placeholder="Enter thickness">
+    <label for="frameThickness">Frame Thickness:</label>
+    <input type="text" id="frameThickness" placeholder="Frame Thickness">
 
     <label for="altText">Alternative Text:</label>
-    <input type="text" id="altText" placeholder="Enter alternative text">
+    <input type="text" id="altText" placeholder="Alternative Text">
 
-    <button onclick="applyChanges()">Apply Changes</button>
+    <button onclick="applyChanges()">Accept</button>
+  </div>
+
+  <div id="gallery" style="display: flex; flex-direction: column; align-items: center;">
+    <img src="1.jpeg" alt="1" width="200" height="150">
+    <img src="2.jpeg" alt="2" width="200" height="150">
+    <img src="3.jpeg" alt="3" width="200" height="150">
+    <img src="4.jpeg" alt="4" width="200" height="150">
+  </div>
 </div>
 
 <script>
-    function moveImage(direction, imageId) {
-        const selectedImage = document.getElementById(imageId);
-        const siblingImage = (direction === 'up') ? selectedImage.previousElementSibling : selectedImage.nextElementSibling;
+  function moveImage(direction) {
+    const gallery = document.getElementById('gallery');
+    const imageSelector = document.getElementById('imageSelector');
+    const selectedIndex = imageSelector.selectedIndex;
 
-        if (siblingImage) {
-            selectedImage.parentNode.insertBefore(selectedImage, (direction === 'up') ? siblingImage : siblingImage.nextElementSibling);
-        }
+    if ((direction === 'up' && selectedIndex > 0) || (direction === 'down' && selectedIndex < imageSelector.options.length - 1)) {
+      const selectedImage = gallery.removeChild(gallery.children[selectedIndex]);
+      if (direction === 'up') {
+        gallery.insertBefore(selectedImage, gallery.children[selectedIndex - 1]);
+        imageSelector.selectedIndex = selectedIndex - 1;
+      } else {
+        gallery.insertBefore(selectedImage, gallery.children[selectedIndex + 1]);
+        imageSelector.selectedIndex = selectedIndex + 1;
+      }
     }
+  }
 
-    function applyChanges() {
-        const selectedImage = document.querySelector('.image-container img:focus');
-        const width = document.getElementById('width').value;
-        const height = document.getElementById('height').value;
-        const thickness = document.getElementById('thickness').value;
-        const altText = document.getElementById('altText').value;
+  function applyChanges() {
+    const imageSelector = document.getElementById('imageSelector');
+    const selectedImageIndex = imageSelector.selectedIndex;
 
-        if (selectedImage) {
-            if (width) selectedImage.width = width;
-            if (height) selectedImage.height = height;
-            if (thickness) selectedImage.style.borderWidth = thickness + 'px';
-            if (altText) selectedImage.alt = altText;
-        }
-    }
+    const imageWidth = document.getElementById('imageWidth').value;
+    const imageHeight = document.getElementById('imageHeight').value;
+    const frameThickness = document.getElementById('frameThickness').value;
+    const altText = document.getElementById('altText').value;
+
+    const selectedImage = document.getElementById('gallery').children[selectedImageIndex];
+
+    selectedImage.width = imageWidth;
+    selectedImage.height = imageHeight;
+    selectedImage.style.border = `${frameThickness}px solid black`;
+    selectedImage.alt = altText;
+  }
 </script>
 
 </body>
