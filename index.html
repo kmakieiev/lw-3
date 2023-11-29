@@ -4,17 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Image Gallery</title>
-  <style>
-    .gallery-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    img {
-      margin: 5px;
-      border: 1px solid black;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 
@@ -52,43 +42,9 @@
     <img src="3.jpeg" alt="3" width="200" height="150">
     <img src="4.jpeg" alt="4" width="200" height="150">
   </div>
+
+  <script src="script.js"></script>
 </div>
-
-<script>
-  function moveImage(direction) {
-    const gallery = document.getElementById('gallery');
-    const imageSelector = document.getElementById('imageSelector');
-    const selectedIndex = imageSelector.selectedIndex;
-
-    if ((direction === 'up' && selectedIndex > 0) || (direction === 'down' && selectedIndex < imageSelector.options.length - 1)) {
-      const selectedImage = gallery.removeChild(gallery.children[selectedIndex]);
-      if (direction === 'up') {
-        gallery.insertBefore(selectedImage, gallery.children[selectedIndex - 1]);
-        imageSelector.selectedIndex = selectedIndex - 1;
-      } else {
-        gallery.insertBefore(selectedImage, gallery.children[selectedIndex + 1]);
-        imageSelector.selectedIndex = selectedIndex + 1;
-      }
-    }
-  }
-
-  function applyChanges() {
-    const imageSelector = document.getElementById('imageSelector');
-    const selectedImageIndex = imageSelector.selectedIndex;
-
-    const imageWidth = document.getElementById('imageWidth').value;
-    const imageHeight = document.getElementById('imageHeight').value;
-    const frameThickness = document.getElementById('frameThickness').value;
-    const altText = document.getElementById('altText').value;
-
-    const selectedImage = document.getElementById('gallery').children[selectedImageIndex];
-
-    selectedImage.width = imageWidth;
-    selectedImage.height = imageHeight;
-    selectedImage.style.border = `${frameThickness}px solid black`;
-    selectedImage.alt = altText;
-  }
-</script>
 
 </body>
 </html>
