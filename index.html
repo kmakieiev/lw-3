@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        .image-container {
+            display: flex;
+            align-items: center;
+            margin: 10px;
+        }
+
+        img {
+            border: 2px solid #333;
+            margin-right: 10px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="gallery">
+    <div class="image-container">
+        <img src="1.jpeg" alt="Image 1" width="300" height="200">
+        <div>
+            <button onclick="moveImage('up', 'image1')">Up</button>
+            <button onclick="moveImage('down', 'image1')">Down</button>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <img src="2.jpeg" alt="Image 2" width="300" height="200">
+        <div>
+            <button onclick="moveImage('up', 'image2')">Up</button>
+            <button onclick="moveImage('down', 'image2')">Down</button>
+        </div>
+    </div>
+
+    <div class="image-container">
+        <img src="3.jpeg" alt="Image 3" width="300" height="200">
+        <div>
+            <button onclick="moveImage('up', 'image3')">Up</button>
+            <button onclick="moveImage('down', 'image3')">Down</button>
+        </div>
+    </div>
+    <!-- Add more image containers as needed -->
+
+    <br>
+
+    <label for="width">Width:</label>
+    <input type="text" id="width" placeholder="Enter width">
+
+    <label for="height">Height:</label>
+    <input type="text" id="height" placeholder="Enter height">
+
+    <label for="thickness">Frame Thickness:</label>
+    <input type="text" id="thickness" placeholder="Enter thickness">
+
+    <label for="altText">Alternative Text:</label>
+    <input type="text" id="altText" placeholder="Enter alternative text">
+
+    <button onclick="applyChanges()">Apply Changes</button>
+</div>
+
+<script>
+    function moveImage(direction, imageId) {
+        const selectedImage = document.getElementById(imageId);
+        const siblingImage = (direction === 'up') ? selectedImage.previousElementSibling : selectedImage.nextElementSibling;
+
+        if (siblingImage) {
+            selectedImage.parentNode.insertBefore(selectedImage, (direction === 'up') ? siblingImage : siblingImage.nextElementSibling);
+        }
+    }
+
+    function applyChanges() {
+        const selectedImage = document.querySelector('.image-container img:focus');
+        const width = document.getElementById('width').value;
+        const height = document.getElementById('height').value;
+        const thickness = document.getElementById('thickness').value;
+        const altText = document.getElementById('altText').value;
+
+        if (selectedImage) {
+            if (width) selectedImage.width = width;
+            if (height) selectedImage.height = height;
+            if (thickness) selectedImage.style.borderWidth = thickness + 'px';
+            if (altText) selectedImage.alt = altText;
+        }
+    }
+</script>
+
+</body>
+</html>
